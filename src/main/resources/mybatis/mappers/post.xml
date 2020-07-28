@@ -15,6 +15,7 @@
 			select postNo, cateNo, postTitle, postContent, regdate
 			from post
 			where cateNo = #{cateNo}
+			order by postNo desc
 		]]>
 	</select>
 	

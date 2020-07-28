@@ -54,21 +54,34 @@ public class MainController {
 		model.addAttribute("blogVo", blogVo);
 		List<CateVo> cateList = cateService.getCateList(id);
 		model.addAttribute("cateList", cateList);
-		
+		System.out.println(cateList.toString());
 		if(cateNo == 0) {
 			cateNo = cateService.getCateNum(id);
 			System.out.println(cateNo);
 		}
-		
-		List<PostVo> postList = postService.getPostList(cateNo);
-		System.out.println(postList.toString());
-		model.addAttribute("postList", postList);
-		if(postNo == 0) {
-			System.out.println("카테고리넘버"+cateNo);
-			postNo = postService.getPostNum(cateNo);
+		boolean cateListFlag = false;
+		for(int i=0;i<cateList.size();i++) {
+			if(cateList.get(i).getCateNo() == cateNo) {
+				cateListFlag = true;
+			}
 		}
-		PostVo postVo = postService.getPostByNo(postNo);
-		model.addAttribute("postVo", postVo);
+		
+		if(cateListFlag) {
+			List<PostVo> postList = postService.getPostList(cateNo);
+			System.out.println(postList.toString());
+			
+			model.addAttribute("postList", postList);
+			if(postNo == 0) {
+				System.out.println("카테고리넘버"+cateNo);
+				postNo = postService.getPostNum(cateNo);
+			}
+			PostVo postVo = postService.getPostByNo(postNo);
+			if(cateNo == postVo.getCateNo()) {
+				System.out.println("같음");
+			}
+			model.addAttribute("postVo", postVo);
+		}
+		
 		
 		return "blog/blog-main";
 	}
