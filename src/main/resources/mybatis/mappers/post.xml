@@ -10,13 +10,18 @@
 		]]>
 	</insert>
 	
-	<select id="getPostList" parameterType="int" resultType="com.javaex.vo.PostVo">
+	<select id="getPostList" parameterType="map" resultType="com.javaex.vo.PostVo">
 		<![CDATA[
-			select postNo, cateNo, postTitle, postContent, regdate
-			from post
-			where cateNo = #{cateNo}
-			order by postNo desc
+			select post.postNo, post.cateNo, post.postTitle, post.postContent, post.regDate
+			from ((select post.*, rownum r
+       			   from (select *
+             			 from post
+             			 where cateNo = #{cateNo}
+             			 order by postNo desc) 
+             			 post)) post
+			where r <= #{endRnum} and r > #{startRnum}
 		]]>
+
 	</select>
 	
 	<select id="getPostByNo" parameterType="int" resultType="com.javaex.vo.PostVo">
@@ -34,11 +39,19 @@
 			where cateNo = #{cateNo}
 		]]>
 	</select>
+	
+	<select id="getList" parameterType="int" resultType="int">
+		<![CDATA[
+			select count(*)
+			from post
+			where cateNo = #{cateNo}
+		]]>
+	</select>
 
 </mapper>
 
 
-
+<!-- ? -->
 <!-- 
  select postNo, p.cateNo, postTitle, postContent, p.regdate, c.id
 			from post p, (select c.cateNo, c.id
@@ -47,6 +60,14 @@
 			where p.cateNo = c.cateNo
 			and c.cateNo = #{cateNo}
 			and id = #{id}
+ -->
+ 
+ <!-- getPostList -->
+ <!-- 
+ select postNo, cateNo, postTitle, postContent, regdate
+			from post
+			where cateNo = #{cateNo}
+			order by postNo desc
  -->
  
 

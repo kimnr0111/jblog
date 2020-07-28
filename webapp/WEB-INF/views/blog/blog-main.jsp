@@ -76,14 +76,43 @@
 							<col style="">
 							<col style="width: 20%;">
 						</colgroup>
-						<c:forEach items="${postList}" var="postVo">
+						<c:forEach items="${postMap.postList}" var="postVo">
 							<tr>
 								<td class="text-left"><a href="${pageContext.request.contextPath}/${blogVo.id}?crtCateNo=${param.crtCateNo}&postNo=${postVo.postNo}">${postVo.postTitle}</a></td>
 								<td class="text-right">${postVo.regDate}</td>
 							</tr>
 						</c:forEach>
 					</table>
+					
+					<div id="paging">
+						<ul>
+							<c:if test="${postMap.prev == true }">
+								<li><a href="${pageContext.request.contextPath}/${blogVo.id}?page=${postMap.startPageBtnNo - 1}">◀</a></li>
+							</c:if>
+							
+							<c:forEach begin="${postMap.startPageBtnNo}" end="${postMap.endPageBtnNo }" step="1" var="page">
+								<c:choose>
+								<c:when test="${param.page eq page }">
+									<li class="active"><a href="${pageContext.request.contextPath}/${blogVo.id}?page=${page}">${page}</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${pageContext.request.contextPath}/${blogVo.id}?page=${page}">${page}</a></li>
+								</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							
+							<c:if test="${postMap.next == true }">
+								<li><a href="${pageContext.request.contextPath}/${blogVo.id}?page=${postMap.endPageBtnNo + 1}">▶</a></li>
+							</c:if>
+						</ul>
+						
+						
+						<div class="clear"></div>
+					</div>
+					
 				</div>
+				
+					
 				<!-- //list -->
 			</div>
 			<!-- //post_area -->

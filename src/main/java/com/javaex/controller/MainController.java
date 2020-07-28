@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,7 +48,8 @@ public class MainController {
 	@RequestMapping(value="{id}", method={RequestMethod.GET, RequestMethod.POST})
 	public String jblogConnect(Model model, @PathVariable("id") String id,
 							   @RequestParam(value="crtCateNo", required = false, defaultValue="0") int cateNo,
-							   @RequestParam(value="postNo", required = false, defaultValue="0") int postNo ) {
+							   @RequestParam(value="postNo", required = false, defaultValue="0") int postNo,
+							   @RequestParam(value="page", required=false, defaultValue="1") int curPage) {
 		
 		System.out.println(id);
 		BlogVo blogVo = blogService.getBlog(id);
@@ -67,10 +69,10 @@ public class MainController {
 		}
 		
 		if(cateListFlag) {
-			List<PostVo> postList = postService.getPostList(cateNo);
-			System.out.println(postList.toString());
+			Map<String, Object> postMap = postService.getPostList(cateNo, curPage);
+			System.out.println(postMap.toString());
 			
-			model.addAttribute("postList", postList);
+			model.addAttribute("postMap", postMap);
 			if(postNo == 0) {
 				System.out.println("카테고리넘버"+cateNo);
 				postNo = postService.getPostNum(cateNo);
