@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="post">
+
+	<insert id="write" parameterType="com.javaex.vo.PostVo">
+		<![CDATA[
+			insert into post 
+			values (SEQ_POST_NO.nextval, #{cateNo}, #{postTitle}, #{postContent}, sysdate)
+		]]>
+	</insert>
+	
+	<select id="getPostList" parameterType="int" resultType="com.javaex.vo.PostVo">
+		<![CDATA[
+			select postNo, cateNo, postTitle, postContent, regdate
+			from post
+			where cateNo = #{cateNo}
+		]]>
+	</select>
+	
+	<select id="getPostByNo" parameterType="int" resultType="com.javaex.vo.PostVo">
+		<![CDATA[
+			select postNo, cateNo, postTitle, postContent, regdate
+			from post
+			where postNo = #{postNo}
+		]]>
+	</select>
+	
+	<select id="getPostNum" parameterType="int" resultType="int">
+		<![CDATA[
+			select nvl(MAX(postNo), 0)
+			from post
+			where cateNo = #{cateNo}
+		]]>
+	</select>
+
+</mapper>
+
+
+
+<!-- 
+ select postNo, p.cateNo, postTitle, postContent, p.regdate, c.id
+			from post p, (select c.cateNo, c.id
+              			  from category c, blog b
+              			  where c.id = b.id) c
+			where p.cateNo = c.cateNo
+			and c.cateNo = #{cateNo}
+			and id = #{id}
+ -->
+ 
+

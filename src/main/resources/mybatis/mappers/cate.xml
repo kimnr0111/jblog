@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cate">
+
+	<insert id="cateInsert" parameterType="com.javaex.vo.CateVo">
+		<!-- 비어있던 no에 seq_no.nextval 값을 넣음 -->
+		<selectKey keyProperty="cateNo" resultType="int" order="BEFORE">	
+			select SEQ_CATEGORY_NO.nextval from dual
+		</selectKey>
+	<![CDATA[
+		insert into category
+		values (#{cateNo}, #{id}, #{cateName}, #{description}, sysdate)
+	]]>	
+	</insert>
+	
+	<select id="getCateList" parameterType="String" resultType="com.javaex.vo.CateVo">
+		<![CDATA[
+			select c.cateNo, c.id, c.cateName, c.description, c.regDate, g.count
+			from category c, (select count(c.cateno) count, c.cateno cateNo
+                  			  from category c, post p
+                  			  where c.cateNo = p.cateNo
+                  			  and id = #{id}
+                  			  group by c.cateno) g
+			where id = #{id}
+			and c.cateNo = g.cateNo
+		]]>
+	</select>
+	
+	<select id="selectByNo" parameterType="int" resultType="com.javaex.vo.CateVo">
+		<![CDATA[
+			select cateNo, id, cateName, description, regDate
+			from category
+			where cateNo = #{no}
+		]]>
+	</select>
+	
+	<delete id="cateDelete" parameterType="int">
+		<![CDATA[
+			delete category
+			where cateNo = #{cateNo}
+		]]>
+	</delete>
+	
+	<select id="cateNum" parameterType="String" resultType="int">
+		<![CDATA[
+			select nvl(MIN(cateNo), 0)
+			from category
+			where id = #{id}
+		]]>
+	</select>
+
+</mapper>
