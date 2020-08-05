@@ -68,7 +68,19 @@
 					</div>
 					<!-- //post -->
 				</c:if>
-				
+				<div id="comment">
+					<table>
+						<colgroup>
+							<col style="">
+							<col style="width: 20%;">
+						</colgroup>
+							<tr>
+								<td>1</td>
+								<td><input id="comment-input" type="text" value="test"></td>
+								<td><button id="comment-submit">버튼</button></td>
+							</tr>
+					</table>
+				</div>
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
 					<table>

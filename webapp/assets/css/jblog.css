@@ -204,6 +204,13 @@ div#footer		{ color:#666 }
 	font-weight: bold;
 }
 
+/* 코멘트 기능 */
+#post_area #comment table {width: 100%; border-collapse: collapse; font-size: 13px;}
+#post_area #comment tr {border-bottom: 1px solid #B7B7B7; }
+#post_area #comment td {padding: 6px 5px 6px 5px;}
+#post_area #comment #comment-submit {position: relative; left: 150px; border: 1px solid #808080; 
+									 background-color: #DDDDDD; border-radius: 5px;}
+
 
 /****************************************************************/
 /* 개인블로그 어드민 ***************************************************/
